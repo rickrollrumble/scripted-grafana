@@ -1,5 +1,7 @@
 from grafanalib.core import TimeSeries, OPS_FORMAT, GridPos, Target, GaugePanel, SqlTarget
 
+from queries import TOTAL_POWER_QUERY
+
 dashboard_panels = {'Cost and Revenue': [
     TimeSeries(
         title="Random Walk",
@@ -42,16 +44,7 @@ dashboard_panels = {'Cost and Revenue': [
         dataSource='default',
         targets=[
             SqlTarget(Target(datasource='stevedb'),
-                      rawSql="""
-                            WITH charger_data AS (SELECT TIMESTAMP(value_timestamp) AS 'time', CAST(value AS DOUBLE) AS 'Power'
-                                          FROM connector_meter_value
-                                            WHERE $__timeFilter(value_timestamp)
-                                            AND reading_context = 'Sample.Periodic'
-                                            AND measurand = 'Power.Active.Import')
-                                            
-                            SELECT time, sum(Power) AS 'Power (kW)'
-                            FROM charger_data group by time;
-                        """)
+                      rawSql=TOTAL_POWER_QUERY)
         ],
         drawStyle='bars',
         fillOpacity=100,
