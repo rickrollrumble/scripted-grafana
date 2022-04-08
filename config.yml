@@ -1,0 +1,17 @@
+datasources:
+  - simplejson_1:
+      url: http://localhost:3000
+      type: grafana_simple_json_datasource
+      access: proxy
+      basicAuth: true
+  - simplejson_2:
+      url: http://localhost:3000
+      type: grafana_simple_json_datasource
+      access: proxy
+      basicAuth: true
+
+dashboards:
+  Cost and Revenue:
+    description: Hello World
+  Top View:
+    description: Top View
